@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -32,8 +32,7 @@ jobs:
       # Step 4: Safely show cache result
       - name: Cache result
         run: |
-          CACHE_HIT="${{ steps.prime-cache-64e8854.outputs.cache-hit }}"
-          if [ -n "$CACHE_HIT" ] && [ "$CACHE_HIT" == "true" ]; then
+          if [ -n "${{ steps.prime-cache-64e8854.outputs.cache-hit }}" ] && [ "${{ steps.prime-cache-64e8854.outputs.cache-hit }}" == "true" ]; then
             echo "Cache hit for cache-64e8854 ✅"
           else
             echo "Cache miss for cache-64e8854 ❌"
