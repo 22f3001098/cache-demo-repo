@@ -1,0 +1,39 @@
+name: Cache Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Create a folder to cache
+      - name: Create folder to cache
+        run: |
+          mkdir -p node_modules
+          echo "Hello World" > node_modules/test.txt
+
+      # Step 3: Cache the folder
+      - name: Prime cache 64e8854
+        id: prime-cache-64e8854
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: cache-64e8854
+
+      # Step 4: Show cache result
+      - name: Cache result
+        run: |
+          if [ "${{ steps.prime-cache-64e8854.outputs.cache-hit }}" == "true" ]; then
+            echo "Cache hit for cache-64e8854 ✅"
+          else
+            echo "Cache miss for cache-64e8854 ❌"
+          fi
