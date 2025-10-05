@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Create a folder to cache
+      # Step 2: Create a folder to cache (dummy content)
       - name: Create folder to cache
         run: |
           mkdir -p node_modules
           echo "Hello World" > node_modules/test.txt
 
-      # Step 3: Cache the folder
+      # Step 3: Cache the folder with a fixed key
       - name: Prime cache 64e8854
         id: prime-cache-64e8854
         uses: actions/cache@v4
@@ -29,10 +29,11 @@ jobs:
           path: node_modules
           key: cache-64e8854
 
-      # Step 4: Show cache result
+      # Step 4: Safely show cache result
       - name: Cache result
         run: |
-          if [ "${{ steps.prime-cache-64e8854.outputs.cache-hit }}" == "true" ]; then
+          CACHE_HIT="${{ steps.prime-cache-64e8854.outputs.cache-hit }}"
+          if [ -n "$CACHE_HIT" ] && [ "$CACHE_HIT" == "true" ]; then
             echo "Cache hit for cache-64e8854 ✅"
           else
             echo "Cache miss for cache-64e8854 ❌"
