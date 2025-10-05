@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Prime cache 64e8854
-        id: prime-cache-64e8854
+        id: prime-cache-64e8854   # <-- this ID is required!
         uses: actions/cache@v4
         with:
           path: |
